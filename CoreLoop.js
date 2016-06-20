@@ -2,29 +2,23 @@
 
 function UpdateWorld(Models,Hands)
 {
-	UpdateHands(Models,Hands);
+	//there's a sphere, centered on you
+	//we will change the position of the protein based on where you are looking
+	//it will "catch up", maybe bounce back and forth a bit. Destination is a set distance from you, on a sphere, but it can go through the sphere, allowing you to fly through.
 	
-	for(var i = 0; i < Models.length; i++)
-		Models[i].children[0].BoundingBoxAppearance.update(Models[i]);
-	
-	if( typeof video !== 'undefined' && video.readyState === video.HAVE_ENOUGH_DATA)
-	{
-		videoImageContext.drawImage( video, 0, 0 );
-		if ( videoTexture ) 
-			videoTexture.needsUpdate = true;
-	}
+	update_loadingsign();
 }
 
-function Render(Models,Users, ControllerModel) {
+function Render() {
 	delta_t = ourclock.getDelta();
 //	if(delta_t > 0.1) delta_t = 0.1;
 	
-	ReadInput(Users, ControllerModel,Models);
-	UpdateWorld(Models, Users);
+	ReadInput();
+	UpdateWorld();
 	
 	//setTimeout( function() { requestAnimationFrame( render );}, 100 ); //debugging only
 	requestAnimationFrame( function(){
-		Render(Models,Users,ControllerModel);
+		Render();
 	} );
 	OurVREffect.render( Scene, Camera ); //will be fine if VR is not enabled
 }
