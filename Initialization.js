@@ -5,7 +5,7 @@ function Initialize()
 		function ( reponse ) {
 			gentilis = reponse;
 			
-			init_loadingsign();
+			init_OurObject();
 		},
 		function ( xhr ) {}, //progression function
 		function ( xhr ) { console.error( "couldn't load font" ); }
@@ -22,8 +22,10 @@ function Initialize()
 	
 	Scene = new THREE.Scene();
 	
+	Scene.add(OurObject);
+	
 	//Camera will be added to the scene when the user is set up
-	Camera = new THREE.PerspectiveCamera( 70, //VERTICAL_FOV_VIVE, //mrdoob says 70. They seem to change it anyway...
+	Camera = new THREE.PerspectiveCamera( 90, //VERTICAL_FOV_VIVE, //mrdoob says 70. They seem to change it anyway...
 			Renderer.domElement.width / Renderer.domElement.height, //window.innerWidth / window.innerHeight,
 			0.001, 700);
 	
@@ -33,20 +35,20 @@ function Initialize()
 	OurVREffect = new THREE.VREffect( Renderer );
 	
 	//compatibility is a MASSIVE thing, can all be done here.
-//	if ( WEBVR.isLatestAvailable() === false ){
-////		document.body.appendChild( WEBVR.getMessage() );
-//	}
-//	else
+	if ( WEBVR.isLatestAvailable() === false ){
+//		document.body.appendChild( WEBVR.getMessage() );
+	}
+	else
 	{
 		//This is where the split could get more fundamental. Many things to take into account: it may be a google cardboard.
 		OurVRControls = new THREE.VRControls( Camera,Renderer.domElement );
-//		if ( WEBVR.isAvailable() === true )
-//			document.body.appendChild( WEBVR.getButton( OurVREffect ) );
+		if ( WEBVR.isAvailable() === true )
+			document.body.appendChild( WEBVR.getButton( OurVREffect ) );
 	}
 	
 	Add_stuff_from_demo();
 	
-//	get_NGL_protein();
+	get_NGL_protein();
 	
 	Render();
 }

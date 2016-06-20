@@ -33,7 +33,7 @@ function Add_stuff_from_demo(){
 
 	// GROUND
 
-	var groundGeo = new THREE.PlaneBufferGeometry( 10000, 10000 );
+	var groundGeo = new THREE.PlaneBufferGeometry( 1000, 1000 );
 	var groundMat = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0x050505 } );
 	groundMat.color.setHSL( 0.095, 1, 0.75 );
 

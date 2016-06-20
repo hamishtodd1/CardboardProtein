@@ -4,15 +4,37 @@
 
 function ReadInput()
 {
-	OurVRControls.update();
+	if(typeof OurVRControls !== 'undefined')
+		OurVRControls.update();
+	
+	Camera.position.set(0,0,0); //we're doing this to simulate a cardboard.
+	
+	PointOfFocus.set(0,0,-1);
+	Camera.localToWorld(PointOfFocus);
 }
 
 document.addEventListener( 'mousedown', function(event) 
 {
 	event.preventDefault();
 	
-//	placeholder_interpret_ngl();
+	placeholder_interpret_ngl();
 }, false );
+
+document.addEventListener( 'keydown', function(event)
+{
+	if(event.keyCode === 190 )
+	{
+		event.preventDefault();
+		VRMODE = 1; //once you're in I guess you're not coming out!
+		OurVREffect.setFullScreen( true );
+		
+		//bug if we do this earlier(?)
+		for(var i = 0; i < 6; i++)
+			OurVREffect.scale *= 0.66666666;
+		
+		return;
+	}
+});
 
 function placeholder_interpret_ngl()
 {
@@ -36,7 +58,10 @@ function placeholder_interpret_ngl()
 			num_NaNs++; //you get this with some proteins
 	if(num_NaNs)console.log("NaNs: ", num_NaNs);
 	
-	ourcopy.scale.set(0.01,0.01,0.01);
-	Scene.add(ourcopy);
-	Scene.remove(LoadingSign);
+	var ourscale = 0.03;
+	ourcopy.scale.set(ourscale,ourscale,ourscale);
+	OurObject.add(ourcopy);
+	OurObject.remove(LoadingSign);
+	
+	//then need to scale it so that it is of a reasonable size
 }

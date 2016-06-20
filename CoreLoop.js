@@ -1,11 +1,6 @@
-//A live fish
-
 function UpdateWorld(Models,Hands)
-{
-	//there's a sphere, centered on you
-	//we will change the position of the protein based on where you are looking
-	//it will "catch up", maybe bounce back and forth a bit. Destination is a set distance from you, on a sphere, but it can go through the sphere, allowing you to fly through.
-	
+{	
+	update_ourobject();
 	update_loadingsign();
 }
 

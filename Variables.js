@@ -20,7 +20,11 @@ var Camera;
 var OurVREffect;
 var OurVRControls;
 
+var OurObject = new THREE.Object3D();
+
 stage = new NGL.Stage();
+
+var PointOfFocus = new THREE.Vector3(); //where the user is looking
 
 /*
  * you probably want a floor
