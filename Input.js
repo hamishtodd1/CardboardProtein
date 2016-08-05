@@ -3,21 +3,39 @@
 
 
 function ReadInput()
-{
-	if(typeof OurVRControls !== 'undefined')
-		OurVRControls.update();
-	
-	Camera.position.set(0,0,0); //we're doing this to simulate a cardboard.
+{	
+//	Camera.position.set(0,0,0); //we're doing this to simulate a cardboard.
 	
 	PointOfFocus.set(0,0,-1);
 	Camera.localToWorld(PointOfFocus);
+	
+	OurOrientationControls.update();
+	
+	appauling_hacky_model_loader();
 }
 
+//less hacky but still shit
 document.addEventListener( 'mousedown', function(event) 
 {
 	event.preventDefault();
 	
-	placeholder_interpret_ngl();
+//	placeholder_interpret_ngl();
+
+	THREEx.FullScreen.request(Renderer.domElement);
+}, false );
+
+document.addEventListener('touchstart', function(e)
+{
+	event.preventDefault();
+	
+	THREEx.FullScreen.request(Renderer.domElement);
+}, false)
+
+window.addEventListener( 'resize', function(event)
+{
+	Renderer.setSize( window.innerWidth, window.innerHeight );
+	Camera.aspect = Renderer.domElement.width / Renderer.domElement.height;
+	Camera.updateProjectionMatrix();
 }, false );
 
 document.addEventListener( 'keydown', function(event)
@@ -35,33 +53,3 @@ document.addEventListener( 'keydown', function(event)
 		return;
 	}
 });
-
-function placeholder_interpret_ngl()
-{
-	//if it's surface then you need loose_surface.bufferList[0].group.children[0].children[0].geometry
-//			console.log(loose_surface);
-	var ProteinGeometry = loose_surface.bufferList[0].geometry;
-	
-	var ourcopy = new THREE.Mesh( new THREE.BufferGeometry(),
-				  new THREE.MeshPhongMaterial({side: THREE.DoubleSide /* temp */ }) );
-	
-	ourcopy.geometry.addAttribute( 'position', 
-			new THREE.BufferAttribute( ProteinGeometry.attributes.position.array, 3 ) );
-	ourcopy.geometry.addAttribute( 'normal', 
-			new THREE.BufferAttribute( ProteinGeometry.attributes.normal.array, 3 ) );
-	ourcopy.geometry.setIndex(
-			new THREE.BufferAttribute( ProteinGeometry.index.array, 1 ) );
-	
-	var num_NaNs =  0;
-	for(var i = 0; i < ProteinGeometry.attributes.position.array.length; i++)
-		if( isNaN( ProteinGeometry.attributes.position.array[i] ))
-			num_NaNs++; //you get this with some proteins
-	if(num_NaNs)console.log("NaNs: ", num_NaNs);
-	
-	var ourscale = 0.03;
-	ourcopy.scale.set(ourscale,ourscale,ourscale);
-	OurObject.add(ourcopy);
-	OurObject.remove(LoadingSign);
-	
-	//then need to scale it so that it is of a reasonable size
-}

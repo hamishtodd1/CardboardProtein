@@ -45,7 +45,7 @@ function update_ourobject()
 	displacementFromDest.sub(OurObject.position);
 	
 	OurObject.acceleration.copy(displacementFromDest);
-	if(OurObject.acceleration.length > 0.00007) //if it's less then "we're there"? What does it mean to collide with the thing you're attracted to?
+	if(OurObject.acceleration.length > 0.00007) //if it's less then "we're there"? What does it mean to collide with the point you're attracted to?
 		OurObject.acceleration.setLength(0.00007);
 	
 	var opposingforce = OurObject.velocity.clone();
@@ -55,9 +55,9 @@ function update_ourobject()
 	OurObject.velocity.add(OurObject.acceleration);
 	
 //	if( OurObject.velocity.length() > displacementFromDest.length() )
-//		OurObject.position.copy(PointOfFocus);
+		OurObject.position.copy(PointOfFocus);
 //	else
-		OurObject.position.add(OurObject.velocity);
+//		OurObject.position.add(OurObject.velocity);
 	
 	//there's a sphere, centered on you
 	//we will change the position of the protein based on where you are looking
